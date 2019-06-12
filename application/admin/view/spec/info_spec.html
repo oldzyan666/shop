@@ -1,0 +1,115 @@
+{extend name="common/common"}
+{block name="content"}
+        <div class="tpl-content-page-title">
+                    添加类型
+                </div>
+        
+                <ol class="am-breadcrumb">
+                    <li><a href="#" class="am-icon-home">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li class="am-active">内容</li>
+                </ol>
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 添加子类模板
+                    </div>
+                    <div class="tpl-portlet-input tpl-fz-ml">
+                        <div class="portlet-input input-small input-inline">
+                            <div class="input-icon right">
+                                <i class="am-icon-search"></i>
+                                <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tpl-block ">
+                    <div class="am-g tpl-amazeui-form">
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal" action="{:url('spec/up_spec')}" method="POST">
+                                <div class="info-list">
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">提示 / Cue :</label>
+                                        <div class="am-u-sm-9">
+                                            <h3 class="am-fl type_font">以下数字排序即为顺序,请按照该进行排列</h3>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">类型 / Type :</label>
+                                        <div class="am-u-sm-9">
+                                            <select data-am-selected name="type_id">
+                                                <option>- -请选择类型- -</option>
+                                            {foreach name="type" id="v"}
+                                                <option value="{$v['id']}">{$v['type']}</option>
+                                            {/foreach}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">模板名称 / Mould :</label>
+                                        <div class="am-u-sm-9">
+                                            <input type="text" id="user-name" name="mould" placeholder="模板名字避免重名,如有不便请见谅">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-weibo" class="am-u-sm-3 am-form-label">
+                                                规格 / Spec :
+                                        </label>
+                                        <div class="am-u-sm-6 am-input-group">
+                                            <span class="am-input-group-label">规格1</span>
+                                            <input type="text" name="sub[]" class="am-form-field tpl-form-no-bg" placeholder="此框为空,以下属性不保存">
+                                        </div>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <button type="button" class="am-btn am-btn-default add-spec">添加规格</button>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-weibo" class="am-u-sm-3 am-form-label">
+                                                规格属性:
+                                        </label>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.1</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.2</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.3</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-weibo" class="am-u-sm-3 am-form-label">
+                                        </label>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.4</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.5</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                        <div class="am-u-sm-3 am-input-group">
+                                            <span class="am-input-group-label">1.6</span>
+                                            <input type="text" name="spec[0][]" class="am-form-field tpl-form-no-bg">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="submit" class="am-btn am-btn-primary">保存提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{/block}
+{block name="js"}
+<script src="__ADMIN__/assets/js/spec.js"></script>
+{/block}

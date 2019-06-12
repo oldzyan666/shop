@@ -1,0 +1,56 @@
+{extend name="common/common"}
+{block name="content"}
+<div class="tpl-portlet-components">
+    <div class="portlet-title">
+        <div class="caption font-green bold">
+            <span class="am-icon-code"></span> 编辑角色权限
+        </div>
+        <div class="tpl-portlet-input tpl-fz-ml">
+            <div class="portlet-input input-small input-inline">
+                <div class="input-icon right">
+                    <i class="am-icon-search"></i>
+                    <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tpl-block">
+        <div class="am-g">
+            <div class="tpl-form-body tpl-form-line">
+                <form class="am-form tpl-form-line-form" method="post" action="{:url('savePermission')}">
+
+                    <input type="hidden" value="{$Think.get.id}" name="role_id"　>
+
+
+                    <div class="am-form-group">
+                        <label class="am-u-sm-3 am-form-label">
+
+
+
+                            角色名称 <span class="tpl-form-line-small-title">Title</span></label>
+                        <div class="am-u-sm-9">
+                            {foreach name="permission" key="k" id="v"}
+
+                            <input type="checkbox" name="permission_id[]"   {if condition="in_array($v['id'],$hasPermission2)"} checked {/if} value="{$v.id}">{$v.personal_name}
+
+                            {if condition="isset($v['son'])"}
+                            {foreach name="v.son" id="v2" key="k2"}
+                            <input type="checkbox" name="permission_id[]"   {if condition="in_array($v['id'],$hasPermission2)"} checked {/if} value="{$v2.id}">{$v2.personal_name}
+
+                           {/foreach}
+                            {/if}
+                            {/foreach}
+                        </div>
+                    </div>
+
+                    <div class="am-form-group">
+                        <div class="am-u-sm-9 am-u-sm-push-3">
+                            <button type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success ">提交</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}

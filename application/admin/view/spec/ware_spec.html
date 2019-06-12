@@ -1,0 +1,93 @@
+{extend name="common/common"}
+{block name="content"}
+        <div class="tpl-content-page-title">
+                    添加类型
+                </div>
+        
+                <ol class="am-breadcrumb">
+                    <li><a href="#" class="am-icon-home">首页</a></li>
+                    <li><a href="#">分类</a></li>
+                    <li class="am-active">内容</li>
+                </ol>
+            <div class="tpl-portlet-components">
+                <div class="portlet-title">
+                    <div class="caption font-green bold">
+                        <span class="am-icon-code"></span> 添加规格
+                    </div>
+                    <div class="tpl-portlet-input tpl-fz-ml">
+                        <div class="portlet-input input-small input-inline">
+                            <div class="input-icon right">
+                                <i class="am-icon-search"></i>
+                                <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="tpl-block ">
+                    <div class="am-g tpl-amazeui-form">
+                        <div class="am-u-sm-12 am-u-md-9">
+                            <form class="am-form am-form-horizontal" action="{:url('spec/up_price')}" method="POST">
+                                <div class="info-list">
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">模板 / Mould :</label>
+                                        <div class="am-u-sm-9">
+                                            <select data-am-selected name="mould" class="mould_sel">
+                                                <option>- -请选择类型- -</option>
+                                            {foreach name="mould" id="v"}
+                                                <option value="{$v['mould']}">{$v['mould']}</option>
+                                            {/foreach}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="am-form-group">
+                                        <label for="user-name" class="am-u-sm-3 am-form-label">规格 / spec :</label>
+                                        <div class="am-u-sm-9">
+                                            <table class="am-table am-table-striped am-text-nowrap showsub">
+                                                
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="id" value="{$_GET['id']}">
+                                    <div class="am-form-group">
+                                        <label for="user-weibo" class="am-u-sm-3 am-form-label">
+                                            <div class="">
+                                                规格价格:
+                                            </div>
+                                        </label>
+                                        <div class="am-u-sm-9 showprice" >
+                                            <table id="showprice" class="am-table-striped am-table-bordered am-table-radius">
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                        <button type="submit" class="am-btn am-btn-primary">保存提交</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{/block}
+{block name="js"}
+<script src="__ADMIN__/assets/js/table.js"></script>
+<script  id="showspec" type="text/html">
+    <%for(var i = 0;i<data.length;i++){%>
+        <tr style="height:30px;" class="<%=data[i].sub%>">
+            <td><%=data[i].sub%>:</td>
+            <%for(var a = 0;a<data[i].spec.length;a++){%>
+                <td><button type="button" class="am-btn am-btn-default <%=data[i].spec[a]%>"  style="color:rgb(0,221,238); margin:5px 0px;" ><%=data[i]['spec'][a]%></button></td>
+            <%}%>
+        </tr>
+    <%}%>
+</script>
+<script>
+    var spec = '{:url("spec/ware_spec")}';
+    var data = new Array();
+</script>
+<script src="__ADMIN__/assets/js/ware_spec.js"></script>
+{/block}

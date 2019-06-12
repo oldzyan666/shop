@@ -1,0 +1,168 @@
+{extend name="common/common" /}
+        <!-- Start Breadcrumbs Area -->
+        {block name="head"}
+        <div class="breadcrumbs-area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="breadcrumbs text-center text-white">
+                           <h3 class="text-uppercase">Checkout</h3> 
+                           <ul class="breadcrumbs-list">
+                                <li>
+                                    <a href="__INDEX__index/index.html" title="Return to Home">Home</a>
+                                </li>
+                                <li>/</li>
+                                <li>Checkout</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/block}
+        <!-- End Of Breadcrumbs Area -->
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper">
+            <!-- Start checkout Area -->
+            {block name="headcontent"}
+            <div class="checkout-area section-padding">
+                <div class="container">
+                    <form action="{:url('check/orderForm')}" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="billing-details-info azure-bg p-30 addlist">
+                                    <div class="billing-title text-uppercase mb-15">
+                                        <h5><strong>地址簿</strong></h5>
+                                    </div>
+                                    {if condition="empty($address)"}
+                                        <div class="default-bg noaddress">
+                                            <p class="alert text-white">你还没有添加地址!!! <a href="{:url('user/my_account')}">点击这里</a> 添加地址</p>
+                                        </div>
+                                    {else /}
+                                        {foreach name="address" key="k" id="v"}
+                                            <input type="hidden" value="{$v['id']}" name="addressid">
+                                            <div class="alert alert-info alert-dismissible fade in adddetailed" data-id={$v['id']} role="alert">
+                                                <strong>收件人:</strong> {$v['rec']}    <strong>联系号码:</strong> {$v['pho']}
+                                                <div><strong>城市:</strong>{$v['city']}</div>
+                                                <div><strong>收件地址:</strong>{$v['address']}</div>
+                                                <div class="pull-right"><button type="button" data-id="{$v['id']}" class="btn btn-warning eaitadd text-nowrap">编辑</button></div>
+                                                <div><strong>备注:</strong>{$v['remark']}</div>
+                                            </div>
+                                        {/foreach}
+                                    {/if}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="order-info azure-bg p-30">
+                                    <div class="billing-title text-uppercase mb-15">
+                                        <h5><strong>结算清单</strong></h5>
+                                    </div>  
+                                    <div class="wishlist-table table-responsive p-5 text-uppercase">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="product-thumbnail"></th>
+                                                    <th class="text-center"><span class="nobr">商品名称</span></th>
+                                                    <th class=""><span class="nobr"> 价格 </span></th>
+                                                    <th class=""><span class="nobr">数量</span></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            <input type="hidden" name="ware_name" value="{$warelist[0]['tradename']}">
+                                            {foreach name="warelist" id="v" key="k"}
+                                                <tr class="carelist">
+                                                    <input type="hidden" name="cart_id[]" value="{$v['id']}">
+                                                    <td class="text-center"><img class="img-rounded img-responsive"  src="__ADMIN__assets/images/uploads/{$v['img']}" /></td>
+                                                    <td class="text-center mt-20">
+                                                        {$v['tradename']}
+                                                        {for start="0" end="3"}
+                                                            {if condition="!empty($v['sub'][$i])"}
+                                                            <p class="w-color m-0">
+                                                                <label>{$v['sub'][$i]} : </label>
+                                                                {$v['spec'][$i]}
+                                                            </p>
+                                                            {/if}
+                                                        {/for}
+                                                    </td>
+                                                    <td><p class="pull-left">￥ {$v['price']}</p></td>
+                                                    <td><p class="pull-left">{$ware_num[$v['id']]}</p></td>
+                                                    <input type="hidden" value="{$ware_num[$v['id']]}" name="ware_num[{$v['spec_id']}]">
+                                                </tr>
+                                                <input type="hidden" value="{$v['spec_id']}" name="spec_id[]"> 
+                                            {/foreach}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="billing-title text-uppercase mt-40 pb-20">
+                                        <h5><strong>总额</strong></h5>
+                                    </div>
+                                    <div class="ml-10">价钱 : <strong>{$price}</strong></div>
+                                    <input type="hidden" value="{$price}" name="price">
+                                    <div class="billing-title text-uppercase mt-40 pb-20">
+                                        <h5><strong>支付方式</strong></h5>
+                                    </div>
+                                    <div class="ml-10 pb-20">
+                                        <input type="radio" name="pricetype" value="1">账号余额
+                                        <input type="radio" name="pricetype" value="2">支付宝支付
+                                        <input type="radio" name="pricetype" value="3">微信支付
+                                    </div>
+                                    <button type="submit">提交订单</button>                         
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- 地址弹窗 -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">新增</h4>
+                        </div>
+                        <form action="{:url('userhandle/upaddress')}" method="POST" class="upaddress">
+                            <div class="modal-body">
+                                <p class="form-group">
+                                    <label for="txt_departmentname">收件人名称<span class="required"> *</span></label>
+                                    <input type="text" name="rec" class="form-control" placeholder="请输入名称"/>
+                                </p>
+                                <p class="" style="margin:0px">
+                                    <label for="txt_departmentname">城市<span class="required">*</span></label>
+                                    <div style="position: relative;">
+                                        <input type="text" data-toggle="city-picker" class="citylist" placeholder="点击选择城市" name="city" />
+                                    </div>
+                                </p>
+                                <p class="form-group">
+                                    <label for="txt_departmentname">详细地址<span class="required" >*</span></label>
+                                    <input type="text" name="address" class="form-control" placeholder="请输入详细地址"/>
+                                </p>
+                                <p class="form-group">
+                                    <label for="txt_departmentname">手机号码<span class="required">*</span></label>
+                                    <input type="text" name="pho" class="form-control" placeholder="请输入手机号码"/>
+                                </p>
+                                <p class="form-group order-notes">
+                                    <label for="txt_departmentname">备注</label>
+                                    <textarea name="remark" class="form-control"></textarea>
+                                </p>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span>关闭</button>
+                                    <button type="button" id="btn_submit" class="btn btn-primary upadd"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>保存</button>
+                                </div>
+                            </div>
+                        </form>    
+                    </div>
+                </div>
+            </div>
+            {/block}
+            <!-- End Of checkout Area -->
+            {block name="js"}
+            <script src="__INDEX__js/formcheck.js"></script>
+            <script>
+            var my_account = '{:url("my_account")}';    
+            var getdata = '{:url("userhandle/getdata")}'
+            </script>
+            <script src="__INDEX__js/my_account.js"></script>
+            <script src="__INDEX__js/checkout.js"></script>
+            {/block}

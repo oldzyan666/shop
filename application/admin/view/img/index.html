@@ -1,0 +1,205 @@
+{extend name="common/common"}
+{block name="content"}
+<div class="tpl-portlet-components">
+    <div class="portlet-title">
+        <div class="caption font-green bold">
+            <span class="am-icon-code"></span> 列表
+        </div>
+        <div class="tpl-portlet-input tpl-fz-ml">
+            <div class="portlet-input input-small input-inline">
+                <div class="input-icon right">
+                    <i class="am-icon-search"></i>
+                    <input type="text" class="form-control form-control-solid" placeholder="搜索..."> </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="tpl-block">
+        <div class="am-g">
+            <div class="am-u-sm-12 am-u-md-6">
+                <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                        <button type="button" class="am-btn am-btn-default am-btn-success"><span class="am-icon-plus"></span> <a href="{:url('insert')}">新增</a></button>
+                        <button type="button" class="am-btn am-btn-default am-btn-secondary"><span class="am-icon-save"></span> 保存</button>
+                        <button type="button" class="am-btn am-btn-default am-btn-warning"><span class="am-icon-archive"></span> 审核</button>
+                        <button type="button" class="am-btn am-btn-default am-btn-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-sm-12 am-u-md-3">
+                <div class="am-form-group">
+                    <select data-am-selected="{btnSize: 'sm'}">
+                        <option value="option1">所有类别</option>
+                        <option value="option2">IT业界</option>
+                        <option value="option3">数码产品</option>
+                        <option value="option3">笔记本电脑</option>
+                        <option value="option3">平板电脑</option>
+                        <option value="option3">只能手机</option>
+                        <option value="option3">超极本</option>
+                    </select>
+                </div>
+            </div>
+
+            <form action="{:url('index')}">
+            <div class="am-u-sm-12 am-u-md-3">
+                <div class="am-input-group am-input-group-sm">
+                    <input type="text" class="am-form-field" name="search">
+                    <span class="am-input-group-btn">
+            <button class="am-btn  am-btn-default am-btn-success tpl-am-btn-success am-icon-search" type="sbbmit">11</button>
+          </span>
+                </div>
+            </div>
+            </form>
+        </div>
+        <div class="am-g">
+            <div class="am-u-sm-12">
+                <form class="am-form">
+                    <table class="am-table am-table-striped am-table-hover table-main">
+                        <thead>
+                        <tr>
+                            <th class="table-check"><input type="checkbox" class="tpl-table-fz-check"></th>
+                            <th class="table-id">ID</th>
+                            <th class="table-title">轮播图</th>
+                            <th class="table-type">轮播图跳转地址</th>
+
+                            <th class="table-set">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ajax-wrapper">
+
+                       <!-- {foreach name="ad_list" key = "k" id="v"}
+
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>{$v.id}</td>
+                            <td > <img src="{$v.src}" alt=""  style="width: 100px;height: 50px;"></td>
+                            <td>{$v.url}</td>
+
+                            <td>
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-xs">
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary"><span class="am-icon-pencil-square-o"></span> 编辑</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span class="am-icon-copy"></span> 复制</button>
+                                        <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only"><span class="am-icon-trash-o"></span> 删除</button>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        {/foreach}-->
+                        </tbody>
+                    </table>
+                    <div class="am-cf">
+
+                        <div class="am-fr ajax-page">
+                            {$page}
+                        </div>
+                    </div>
+                    <hr>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="tpl-alert"></div>
+</div>
+
+{/block}
+
+{block name="js"}
+
+<script src="__ADMIN__template.js"></script>
+<script id="ajax-content" type="text/html">
+
+<%for(var i=0;i<data.length;i++){%>
+    <tr data-id="<%=data[i].id%>">
+        <td><input type="checkbox"></td>
+        <td><%=data[i].id%></td>
+
+        if(str.indexOf('http') == -1){
+        <td >
+
+                <img src="__THUMB__<%=data[i].src%>" alt=""  style="width: 100px;height: 50px;">
+
+        </td>
+
+        }else{
+        <td >
+
+            <img src="<%=data[i].src%>" alt=""  style="width: 100px;height: 50px;">
+
+        </td>}
+        <td><%=data[i].url%></td>
+
+        <td>
+            <!--<div class="am-btn-toolbar">-->
+                <div class="am-btn-group am-btn-group-xs">
+                    <button class="am-btn am-btn-default am-btn-xs am-text-secondary">
+                        <span class="am-icon-pencil-square-o"></span>
+                        <a href="{:url('edit')}?id=<%=data[i].id%>">编辑</a>
+                    </button>
+                    <button class="am-btn am-btn-default am-btn-xs am-hide-sm-only"><span class="am-icon-copy"></span> 复制</button>
+                    <button class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only ">
+                        <span class="am-icon-trash-o"></span>
+                        <!--<a href="{:url('delete')}?id=<%=data[i].id%>">删除</a>-->
+                        <a href="javascript:;" class="del-btn">删除</a>
+                    </button>
+                </div>
+            <!--</div>-->
+        </td>
+    </tr>
+<%}%>
+</script>
+
+    <script>
+
+        var config = {
+
+            success:function (res) {
+                var html =  template($('#ajax-content').html(),{data:res.ad_list.data});
+
+                $('#ajax-wrapper').html(html);
+
+                $('.ajax-page').html(res.page);
+            }
+
+        };
+
+        $.ajax(config);
+        $('.ajax-page').on('click','a',function (e) {
+            e.preventDefault();
+            var url = $(this).attr('href');
+            config.url = url;
+            $.ajax(config);
+        })
+
+
+
+
+        $('#ajax-wrapper').on('click','.del-btn',function (e) {
+            var id = $(this).parent().parent().parent().parent().data('id');
+           if (confirm('你确定要删除吗')){
+
+               $.ajax({
+                   url:'{:url("delete")}?id='+id,
+                   success:function (res) {
+                       $.ajax(config);
+                   }
+               })
+
+           }
+        })
+
+
+
+
+
+    </script>
+
+
+{/block}
+
+
+
+

@@ -1,0 +1,131 @@
+{extend name="common/common" /}        
+        <!-- End of header area -->
+        <!-- Start Breadcrumbs Area -->
+        {block name="head"}
+        <div class="breadcrumbs-area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="breadcrumbs text-center text-white">
+                            <h3 class="text-uppercase">Login</h3>
+                            <ul class="breadcrumbs-list">
+                                <li>
+                                    <a href="__INDEX__index/index.html" title="Return to Home">Home</a>
+                                </li>
+                                <li>/</li>
+                                <li>Login</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/block}
+        <!-- End Of Breadcrumbs Area -->
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper">
+            <!-- Start Wishlist Area -->
+            {block name="headcontent"}
+            <!-- 登录 -->
+            <div class="login-section section-padding">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6 ">
+                            <div class="registered-customers">
+                                <div class="section-title text-uppercase mb-40">
+                                    {if condition="!empty(cache('user'))"}
+                                    <h4>登录绑定</h4>                                    
+                                    {else /}
+                                    <h4>登录</h4>
+                                    {/if}
+                                </div>
+                                <form action="" method="POST" class="am-form">
+                                    <div class="login-account p-30 box-shadow">
+                                        <div>
+                                            <input type="text" placeholder="邮箱 / 手机号码 / 用户名" name="user">
+                                            <p></p>
+                                        </div>
+                                        <div>
+                                            <input type="password" placeholder="密码" name="pwd">
+                                            <p></p>
+                                        </div>
+                                        <div>
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <input type="text" name="captcha" placeholder="验证码">
+                                                    <p></p>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <image src="{:url('check/captcha')}" class="img" style="width: 145px;height: 39px">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- <div class="row">
+                                            <div class="col-sm-6">
+                                                
+                                            </div>
+                                            <div class="col-sm-6">
+                                                
+                                            </div>
+                                        </div> -->
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <small>
+                                                    <a href="#">忘记密码</a>
+                                                </small>
+                                            </div>
+                                            <div class="col-sm-3">
+                                                <small>
+                                                    <a href="{:url('log/reg')}">注册账号</a>
+                                                </small>
+                                            </div>
+                                            {if condition="!empty(cache('user'))"}
+                                                <div class="col-sm-3">
+                                                    <small>
+                                                        <a href="{:url('check/cancelbin')}">取消绑定</a>
+                                                    </small>
+                                                </div>
+                                            {/if}
+                                        </div>
+                                        <div class="row">
+                                            {if condition="!empty(cache('user'))"}
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="submit-btn mt-15 upUser">binding</button>
+                                            </div>
+                                            {else /}
+                                            <div class="col-sm-4">
+                                                <button type="submit" class="submit-btn mt-15 upUser">login</button>
+                                            </div>
+                                            {/if}
+                                            {if condition="empty(cache('user'))"}
+                                            <div class="col-sm-8 row">
+                                                <div class="col-sm-5">
+                                                    <p class="logo">其他渠道登录:</p>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <a href="{$wechat}"><image class="img-circle logo" src="__INDEX__images/wechatlogo.jpeg" height="30"></a>
+                                                </div>
+                                                <div class="col-sm-2">
+                                                    <a href="{$weibo}"><image class="img-circle logo" height="30" src="__INDEX__images/weibologo.jpeg"></a>
+                                                </div>
+                                            </div>
+                                            {/if}
+                                        </div>                 
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/block}
+            {block name="js"}
+            <script>
+            var login = "{:url('check/login')}";
+            var binding = "{:url('check/binding')}";
+            </script>
+            <script src="__INDEX__/js/formcheck.js"></script>
+            <script src="__INDEX__js/log.js"></script>
+            <script>showcue()</script>
+            {/block}

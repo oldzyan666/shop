@@ -1,0 +1,151 @@
+{extend name="common/common" /}        
+        <!-- End of header area -->
+        <!-- Start Breadcrumbs Area -->
+        {block name="head"}
+        <div class="breadcrumbs-area section-padding">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="breadcrumbs text-center text-white">
+                            <h3 class="text-uppercase">Register</h3>
+                            <ul class="breadcrumbs-list">
+                                <li>
+                                    <a href="__INDEX__index/index.html" title="Return to Home">Home</a>
+                                </li>
+                                <li>/</li>
+                                <li>Register</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/block}
+        <!-- End Of Breadcrumbs Area -->
+        <!-- Start page content -->
+        <section id="page-content" class="page-wrapper">
+            <!-- Start Wishlist Area -->
+            {block name="headcontent"}
+            <div class="login-section section-padding center-block">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="registered-customers">
+                                <div class="section-title text-uppercase mb-30">
+                                    <h4>注册</h4>
+                                </div>
+                                <form action="{:url('check/checkUser')}" class="am-form" method="post">
+                                    <div class="login-account p-20 box-shadow">
+                                        <div class="">
+                                            <input type="text" placeholder="用户名" name="user" value="{if condition='cache("user")["logintype"]=="wechat"'}{:cache("user")["nickname"]}{else/}{:cache("user")["name"]}{/if}">
+                                            <p></p>
+                                        </div>
+                                        <div class="">
+                                            <input type="text" class="pho" placeholder="手机号码" name="pho">
+                                            <p></p>
+                                        </div>
+                                        <div class="">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <input type="text" name="phoVali" placeholder="验证码">
+                                                    <p></p>   
+                                                </div>
+                                                <div class="col-sm-6;">
+                                                    <button type="button" class="btn-primary mt-10 btn sendCode">获取验证码</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="">
+                                            <input type="text" placeholder="邮箱地址" name="email">
+                                            <p></p>
+                                        </div>
+                                        <div class="">
+                                            <input type="password" placeholder="密码" name="pwd">
+                                            <p></p>
+                                        </div>
+                                        <div class="">
+                                            <input type="password" placeholder="确认密码" name="agPwd">
+                                            <p></p>
+                                        </div> 
+                                        <div class="row center-block updata">
+                                            <div class="col-md-6">
+                                                <button type="button" name="reg" class="submit-btn mt-15 upUser center-block">马上注册!!!</button>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <button type="reset" class="submit-btn mt-15 center-block">清空</button>
+                                            </div>
+                                        </div>
+                                        {if condition="!empty(cache('user'))"}
+                                        <div class="logo">
+                                            <p class="">如果有账号请击这里进行绑定: <a class="btn btn-default" href="{:url('log/login')}">绑定</a></p>
+                                        </div>
+                                        {/if}
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/block}
+
+        {block name="js"}
+            <script src="__INDEX__/js/formcheck.js"></script>
+            <script>
+            //发送验证码
+            var sendtime = 0;
+            $('.sendCode').click(function(){
+                var on = $(this);
+                var pho = new FormData($('.am-form')[0]);
+                $.ajax({
+                    type:"post",
+                    data: pho,
+                    url :"{:url('check/phoVali')}",
+                    contentType : false,
+                    processData: false,
+                    success: function(res){
+                        //当没有输入手机时,会报错误信息
+                        if(res!=''){
+                            switch(res)
+                            {
+                                case 1:
+                                    phocue('号码已注册');
+                                break;
+                                case 2:
+                                    phocue('请输入手机号码')
+                                break;
+                                default:
+                                break;
+                            }
+                        }else
+                        {
+                            //发送成功倒数60秒才可重新发送
+                            on.prop('disabled',true);
+                            on.html('<span id="countdown">60</span>秒后重发');
+                            sendtime++;
+                            var count = setInterval(function()
+                            {
+                                var nub = $('#countdown').html();
+                                nub--;
+                                $('#countdown').html(nub);
+                                if(nub <=1)
+                                {
+                                    clearInterval(count);
+                                    $('.sendCode').prop('disabled',false);
+                                    $('.sendCode').html('验证码重新发送');
+                                }
+                            },1000)
+                        }
+                    }
+                })
+                //发送上限
+                if(sendtime==3){
+                    $('.sendCode').prop('disabled',true);
+                    $('.sendCode').html('验证码发送上限');
+                }  
+            })
+
+            showcue()
+            upForm("{:url('check/checkUser')}","{:url('index/index')}","密码不一致",'user')
+            </script>
+        {/block}

@@ -1,0 +1,129 @@
+{extend name="common/common"}
+<!-- Start Breadcrumbs Area -->
+{block name="head"}
+<div class="breadcrumbs-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="breadcrumbs text-center text-white">
+                   <h3 class="text-uppercase">Shopping Cart</h3> 
+                   <ul class="breadcrumbs-list">
+                        <li>
+                            <a href="__INDEX__index/index.html" title="Return to Home">Home</a>
+                        </li>
+                        <li>/</li>
+                        <li>Shopping Cart</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+<!-- End Of Breadcrumbs Area -->
+<!-- Start page content -->
+<section id="page-content" class="page-wrapper">
+    <!-- Start Wishlist Area -->
+{block name="headcontent"}
+<div class="wishlist-area section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="wishlist-content">
+                    <form action="{:url('user/checkout')}" method="post">
+                        <div class="wishlist-table table-responsive p-30 text-uppercase">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th class="product-thumbnail text-center"><input type="checkbox" class="allbuy"></th>
+                                        <th class="product-thumbnail"></th>
+                                        <th class="product-name text-center"><span class="nobr">商品名称</span></th>
+                                        <th class="product-prices text-center"><span class="nobr"> 价格 </span></th>
+                                        <th class="product-add-to-cart text-center"><span class="nobr">数量</span></th>
+                                        <th class="product-remove text-center"><span class="nobr">删除商品</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {if condition="!empty($care)"}
+                                        {foreach name="care" id="v" key="k"}
+                                            <tr class="carelist">
+                                                <td class="product-thumbnail text-center"><input type="checkbox" name="cart_id[]" value="{$v['id']}" class="buy"></td>
+                                                <td class="product-thumbnail text-center"><a href="{:url('ware/product_details')}?ware_id={$v['ware_id']}" title="men’s black t-shirt"><img class="img-rounded img-responsive"  src="__ADMIN__assets/images/uploads/{$v['img']}" /></a></td>
+                                                <td class="product-name mt-20 text-center">
+                                                    <a href="{:url('ware/product_details')}?ware_id={$v['ware_id']}" class="mr-20" title="men’s black t-shirt">{$v['tradename']}</a>
+                                                    {for start="0" end="count($v['sub'])"}
+                                                        <p class=" m-0">
+                                                            <label>{$v['sub'][$i]} : </label>
+                                                            {$v['spec'][$i]}
+                                                        </p>
+                                                    {/for}
+                                                </td>
+                                                <td class="product-prices text-center"><span class="amount">￥ {$v['price']}</span></td>
+                                                <td class="product-value text-center">
+                                                    <input type="number" name="quantity[{$v['id']}]" min="1" value="{$v['quantity']}">
+                                                </td>
+                                                <td class="product-remove text-center"><button type="button" data-id="{$v['id']}" class="btn btn-default delware" data-toggle="modal" data-target="#myModal">×</button></td>
+                                            </tr>
+                                        {/foreach}
+                                    {else /}
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="showerror"><p class="bg-info pull-right">你还没有添加任 </p></td>
+                                            <td class="showerror"><p class="bg-info pull-left"> 何商品进购物车 </p></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    {/if}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="cart-requerment mt-50 clearfix">
+                                <div class="col-md-offset-0 col-md-4 col-sm-offset-3 col-sm-6 clearfix pull-right">
+                                    <div class="counpon-total ml-35">
+                                        <button type="submit" class="btn btn-primary btn-lg pull-right" title="Add to Cart">提交订单</button>                               
+                                    </div>
+                                </div>                                            
+                            </div>
+                        </div>  
+                    </form>
+                </div>                            
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 弹窗 -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-backdrop="false" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">提示</h4>
+      </div>
+      <div class="modal-body showfont">
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //////////////////////////////////// -->
+<!-- //////////////////////////////////// -->
+{/block}
+<!-- End Of Wishlist Area -->
+{block name="js"}
+<script>
+    //商品地址
+    var ware = "{:url('ware/product_details')}";
+    //获取最新的购物车数据
+    var cart = "{:url('cart/__construct')}";
+    //地址常量
+    var address = "__ADMIN__";
+    //购物车页面里面有删除的操作
+    var delurl = "{:url('user/cart')}"
+</script>
+<script src="__INDEX__js/updatacart.js"></script>
+<script src="__INDEX__js/cart.js"></script>
+{/block}
